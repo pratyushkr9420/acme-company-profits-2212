@@ -25,6 +25,13 @@ export const createWidget = (widget)=> {
   };
 };
 
+export const updateWidget = (widget)=> {
+  return async(dispatch)=> {
+    const response = await axios.put(`/api/widgets/${widget.id}`, widget);
+    dispatch({ type: 'UPDATE_WIDGET', widget: response.data });
+  };
+};
+
 const foo = (state = 'bar', action)=> {
   return state;
 };
@@ -42,6 +49,14 @@ const widgets = (state = [], action)=> {
   }
   if(action.type === 'CREATE_WIDGET'){
     return [...state, action.widget];
+  }
+  if(action.type === 'UPDATE_WIDGET'){
+    return state.map(widget => {
+      if(widget.id === action.widget.id){
+        return action.widget
+      }
+      return widget
+    })
   }
   return state;
 };

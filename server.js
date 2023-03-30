@@ -26,6 +26,18 @@ app.post('/api/widgets', async(req, res, next)=> {
   }
 });
 
+app.put('/api/widgets/:id', async(req, res, next)=> {
+  try {
+    const widget = await Widget.findByPk(req.params.id);
+    await widget.update(req.body);
+    res.send(widget);
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
+
 
 const port = process.env.PORT || 3000;
 
